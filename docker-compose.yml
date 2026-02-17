@@ -6,7 +6,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
     volumes:
-      - ./jellyfin:/config
+      - jellyfin_config:/config
       - /path/to/media:/media
     ports:
       - 8096:8096
@@ -27,7 +27,7 @@ services:
       - 8080:8080 # qbittorrent
       - 9696:9696 # prowlarr
     volumes:
-      - ./gluetun:/gluetun
+      - gluetun_config:/gluetun
     environment:
       # See https://github.com/qdm12/gluetun-wiki/tree/main/setup#setup
       - PUID=${PUID}
@@ -53,7 +53,7 @@ services:
         - PGID=${PGID}
         - WEBUI_PORT=8080
       volumes:
-        - ./qbittorrent:/config
+        - qbittorrent_config:/config
         - /path/to/qbittorrent-downloads:/downloads
       network_mode: service:gluetun
       restart: unless-stopped
@@ -65,7 +65,7 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
     volumes:
-      - ./prowlarr:/config
+      - prowlarr_config:/config
     network_mode: service:gluetun
     restart: unless-stopped
   sonarr:
@@ -76,7 +76,7 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
     volumes:
-      - ./sonarr:/config
+      - sonarr_config:/config
       - /path/to/media/tv:/tv
       - /path/to/qbittorrent-downloads:/downloads
     ports:
@@ -90,9 +90,17 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
     volumes:
-      - ./radarr:/config
+      - radarr_config:/config
       - /path/to/media/movies:/movies
       - /path/to/qbittorrent-downloads:/downloads
     ports:
       - 7878:7878
     restart: unless-stopped
+
+volumes:
+  jellyfin_config:
+  gluetun_config:
+  qbittorrent_config:
+  prowlarr_config:
+  sonarr_config:
+  radarr_config:
